@@ -83,6 +83,15 @@ function App() {
       <h1>Anon Confessions</h1>
       <p className="subtitle">Confess your crypto sins. 100% anonymous.</p>
 
+      <a
+        href="https://t.me/trenches_confessions"
+        target="_blank"
+        rel="noreferrer"
+        className="channel-link"
+      >
+        Read the confessions on Telegram &rarr;
+      </a>
+
       <form onSubmit={handleInitialSubmit}>
         <textarea
           placeholder="I bought the top because a guy with an anime pfp told me to..."

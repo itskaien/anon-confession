@@ -205,7 +205,6 @@ button:disabled {
     font-size: 1.5rem;
   }
 
-  /* Stack the character count and the button */
   .form-footer {
     flex-direction: column;
     align-items: flex-start;
@@ -223,4 +222,19 @@ button:disabled {
   .modal-actions button {
     width: 100%;
   }
+}
+
+.channel-link {
+  display: inline-block;
+  margin-bottom: 2rem;
+  color: #2e4053;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+.channel-link:hover {
+  color: #1c2833;
+  text-decoration: underline;
 }
