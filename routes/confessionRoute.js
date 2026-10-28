@@ -3,6 +3,6 @@ const { submitConfession } = require("../controllers/confessionController");
 
 const router = Router();
 
-router.post("submit", submitConfession);
+router.post("/submit", submitConfession);
 
 module.exports = router;
