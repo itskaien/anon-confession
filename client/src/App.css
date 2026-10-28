@@ -187,3 +187,40 @@ button:disabled {
 .confirm-btn:hover {
   background: #1c2833;
 }
+
+/* Mobile Responsiveness */
+@media (max-width: 600px) {
+  body {
+    align-items: flex-start;
+    padding-top: 2rem;
+  }
+
+  .container {
+    padding: 1.5rem;
+    margin: 1rem;
+    border-radius: 8px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  /* Stack the character count and the button */
+  .form-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .form-footer button {
+    width: 100%;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+  }
+
+  .modal-actions button {
+    width: 100%;
+  }
+}
