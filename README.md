@@ -2,12 +2,12 @@
 
 A fully automated, 100% anonymous confession board for the crypto trenches. Users can submit their worst trades, rugs, and massive money extractions without ever linking a wallet, email, or identity. The submission is instantly broadcasted to a public Telegram channel.
 
-## 🌐 Live Links
+## Live Links
 
 - **Frontend App (Vercel):** [https://anon-confession-chi.vercel.app/](https://anon-confession-chi.vercel.app/)
 - **Telegram Channel:** [@trenches_confessions](https://t.me/trenches_confessions)
 
-## 💡 Inspiration
+## Inspiration
 
 This project was inspired by a tweet from [@Mystral_777](https://x.com/Mystral_777) who suggested:
 
@@ -15,7 +15,7 @@ This project was inspired by a tweet from [@Mystral_777](https://x.com/Mystral_7
 
 We built the infrastructure to make that a reality.
 
-## 🔒 Privacy & Anonymity First
+## Privacy & Anonymity First
 
 This project was built with a "privacy-by-design" philosophy:
 
@@ -24,7 +24,7 @@ This project was built with a "privacy-by-design" philosophy:
 - **Anonymous Rate Limiting:** Instead of tracking IPs, the backend uses native browser fingerprinting (hashing user agent, screen size, etc.) purely in memory to prevent spam. This fingerprint is _never_ saved to the database.
 - **Archived Sans Identity:** Confessions are saved to the database for archival, but the text is completely decoupled from the user who submitted it.
 
-## 🚀 Features
+## Features
 
 - **Anonymous Submissions:** Instantly posts to Telegram via a custom bot.
 - **Anti-Spam Honeypot:** A hidden CSS field that traps automated bots.
@@ -33,7 +33,7 @@ This project was built with a "privacy-by-design" philosophy:
 - **Smart Validation:** Blocks phishing links (http, .com, etc.) and severe Telegram ToS violations, but _allows_ wallet addresses so users can prove what rugged them.
 - **Cloudflare Relay:** Routes Telegram API requests through a Cloudflare Worker to bypass cloud provider IP blocks.
 
-## 🏗 Architecture Flow
+## Architecture Flow
 
 1. **Frontend (React/Vite):** User types a confession. A browser fingerprint is generated locally. A confirmation modal ensures intent.
 2. **Backend (Node.js/Express):** Receives the text and fingerprint. Validates length, regex (blocks links), and blocklist words.
@@ -43,7 +43,7 @@ This project was built with a "privacy-by-design" philosophy:
 6. **Cloudflare Worker:** Receives the request from Render and forwards it to the official Telegram Bot API, bypassing cloud IP restrictions.
 7. **Telegram:** Publishes the confession to the public channel instantly.
 
-## 🛠 Tech Stack
+## Tech Stack
 
 ### Frontend
 
@@ -70,7 +70,7 @@ This project was built with a "privacy-by-design" philosophy:
 - **Render:** Backend hosting (Web Service).
 - **Vercel:** Frontend hosting.
 
-## 📦 Local Setup
+## Local Setup
 
 ### Prerequisites
 
