@@ -52,7 +52,7 @@ const submitConfession = async (req, res) => {
         data: { text },
       });
     } catch (dbError) {
-      console.error("Database Save Error:", dbError.message);
+      console.error("DATABASE ERROR:", JSON.stringify(dbError, null, 2));
     }
 
     await sendToTelegram(text);
