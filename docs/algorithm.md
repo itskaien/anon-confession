@@ -45,7 +45,6 @@
 
 - Create a single-page form with a textarea (Min: 15, Max: 2000 characters)
 - Add a hidden input field (Honeypot) styled with display: none
-- Use fpyx to generate the browser fingerprint on mount
 - Add a "Submit" button that triggers a confirmation modal ("Are you sure? Cannot be deleted.")
 
 7. Frontend Submission
