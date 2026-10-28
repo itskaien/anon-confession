@@ -18,7 +18,7 @@
 
 - Receive text and fingerprint from the frontend
 - Length Check: Reject if text is under 15 or over 2,000 characters
-- Regex Check: Reject if text contains http, www., .sol, .com, or EVM/Solana wallet address formats
+- Regex Check (Anti-Phishing): Reject if text contains raw links (http, www., .com, .sol, .io, t.me) to prevent the channel from becoming a phishing farm
 - Blocklist Check: Reject if text contains hardcoded illegal terms (doxxing, extreme slurs)
 
 4. Backend Rate Limiting & Proof-of-Work
