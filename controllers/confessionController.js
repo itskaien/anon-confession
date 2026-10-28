@@ -1,3 +1,4 @@
+const prisma = require("../prismaClient");
 const { checkRateLimitAndPoW } = require("../services/rateLimitService");
 const { sendToTelegram } = require("../services/telegramService");
 
@@ -44,6 +45,14 @@ const submitConfession = async (req, res) => {
         response.difficulty = rateLimitResult.difficulty;
       }
       return res.status(rateLimitResult.status).json(response);
+    }
+
+    try {
+      await prisma.confession.create({
+        data: { text },
+      });
+    } catch (dbError) {
+      console.error("Database Save Error:", dbError.message);
     }
 
     await sendToTelegram(text);

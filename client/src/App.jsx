@@ -1,122 +1,142 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useState, useEffect } from "react";
+import fp from "fpyx";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [text, setText] = useState("");
+  const [fingerprint, setFingerprint] = useState(null);
+
+  const [honeypot, setHoneypot] = useState("");
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    const loadFingerprint = async () => {
+      try {
+        const id = await fp.get();
+        setFingerprint(id);
+      } catch (err) {
+        console.error("Failed to generate fingerprint", err);
+      }
+    };
+    loadFingerprint();
+  }, []);
+
+  const handleInitialSubmit = (e) => {
+    e.preventDefault();
+    setError("");
+    setSuccess(false);
+
+    if (honeypot) {
+      setSuccess(true);
+      return;
+    }
+
+    if (text.length < 15 || text.length > 2000) {
+      setError("Text must be between 15 and 2,000 characters.");
+      return;
+    }
+
+    setIsModalOpen(true);
+  };
+
+  const handleConfirmSubmit = async () => {
+    setIsSubmitting(true);
+    setError("");
+
+    try {
+      const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+
+      const res = await fetch(`${API_URL}/submit`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text, fingerprint }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to submit");
+      }
+
+      setSuccess(true);
+      setText("");
+      setIsModalOpen(false);
+    } catch (err) {
+      setError(err.message);
+      setIsModalOpen(false);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className="container">
+      <h1>Anon Confessions</h1>
+      <p className="subtitle">Confess your crypto sins. 100% anonymous.</p>
 
-      <div className="ticks"></div>
+      <form onSubmit={handleInitialSubmit}>
+        <textarea
+          placeholder="I bought the top because a guy with an anime pfp told me to..."
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          maxLength={2000}
+          rows={6}
+        />
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+        {/* Honeypot Field (Hidden from humans) */}
+        <input
+          type="text"
+          name="honeypot"
+          value={honeypot}
+          onChange={(e) => setHoneypot(e.target.value)}
+          style={{ display: "none" }}
+          tabIndex="-1"
+          autoComplete="off"
+        />
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+        <div className="form-footer">
+          <span className="char-count">{text.length} / 2000</span>
+          <button type="submit">Submit Confession</button>
+        </div>
+      </form>
+
+      {error && <div className="error-msg">{error}</div>}
+      {success && (
+        <div className="success-msg">Confession broadcasted anonymously!</div>
+      )}
+
+      {isModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h2>Are you sure?</h2>
+            <p>
+              This confession will be posted publicly to the Telegram channel
+              and cannot be deleted.
+            </p>
+            <div className="modal-actions">
+              <button
+                onClick={() => setIsModalOpen(false)}
+                disabled={isSubmitting}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleConfirmSubmit}
+                disabled={isSubmitting}
+                className="confirm-btn"
+              >
+                {isSubmitting ? "Submitting..." : "Yes, post it"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }
 
-export default App
+export default App;
