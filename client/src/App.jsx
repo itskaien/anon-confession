@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import fp from "fpyx";
+import * as fp from "fpyx";
 import "./App.css";
 
 function App() {
