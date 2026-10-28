@@ -1,4 +1,5 @@
 const { checkRateLimitAndPoW } = require("../services/rateLimitService");
+const { sendToTelegram } = require("../services/telegramService");
 
 const FORBIDDEN_WORDS = ["dox", "swat", "cp"];
 
@@ -30,7 +31,6 @@ const submitConfession = async (req, res) => {
         .json({ error: "This confession violates safety rules." });
     }
 
-    // Rate Limiting and Proof-of-Work
     const rateLimitResult = checkRateLimitAndPoW(
       fingerprint,
       powPrefix,
@@ -46,13 +46,12 @@ const submitConfession = async (req, res) => {
       return res.status(rateLimitResult.status).json(response);
     }
 
-    return res.status(200).json({
-      success: true,
-      message: "Rate limit passed or PoW solved. Ready for Telegram execution.",
-    });
+    await sendToTelegram(text);
+
+    return res.status(200).json({ success: true });
   } catch (error) {
     console.error("Submission Error:", error.message);
-    return res.status(500).json({ error: "Internal server error." });
+    return res.status(500).json({ error: "Failed to process confession." });
   }
 };
 
