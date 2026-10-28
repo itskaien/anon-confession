@@ -131,8 +131,7 @@ button:disabled {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(28, 40, 51, 0.6);
-  backdrop-filter: blur(4px);
+  background: rgba(28, 40, 51, 0.85);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -140,23 +139,25 @@ button:disabled {
 }
 
 .modal-content {
-  background: var(--bg-card);
+  background: #f4f6f6;
   padding: 2rem;
   border-radius: 12px;
-  border: 1px solid var(--border-light);
-  max-width: 450px;
+  border: 1px solid #aab7b8;
+  max-width: 400px;
   width: 90%;
   text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 .modal-content h2 {
   margin-top: 0;
   font-size: 1.5rem;
-  color: var(--text-main);
+  color: #1c2833;
+  letter-spacing: -0.02em;
 }
 
 .modal-content p {
-  color: var(--text-muted);
+  color: #2e4053;
   font-size: 1rem;
   margin-bottom: 2rem;
   line-height: 1.5;
@@ -170,11 +171,19 @@ button:disabled {
 
 .modal-actions button:first-child {
   background: transparent;
-  border: 1px solid var(--border);
-  color: var(--text-main);
+  border: 1px solid #aab7b8;
+  color: #1c2833;
+}
+
+.modal-actions button:first-child:hover {
+  background: #d5dbdb;
 }
 
 .confirm-btn {
-  background: var(--danger);
-  color: #ffffff;
+  background: #2e4053;
+  color: #f4f6f6;
+}
+
+.confirm-btn:hover {
+  background: #1c2833;
 }
