@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import * as fp from "fpyx";
 import "./App.css";
 
 function App() {
@@ -14,15 +13,19 @@ function App() {
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    const loadFingerprint = async () => {
-      try {
-        const id = await fp.get();
-        setFingerprint(id);
-      } catch (err) {
-        console.error("Failed to generate fingerprint", err);
-      }
+    const generateFingerprint = () => {
+      const raw =
+        navigator.userAgent +
+        screen.width +
+        screen.height +
+        Intl.DateTimeFormat().resolvedOptions().timeZone +
+        navigator.language;
+
+      const hash = btoa(raw).replace(/=/g, "").slice(0, 20);
+      setFingerprint(hash);
     };
-    loadFingerprint();
+
+    generateFingerprint();
   }, []);
 
   const handleInitialSubmit = (e) => {

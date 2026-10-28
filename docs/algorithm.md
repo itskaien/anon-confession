@@ -39,6 +39,8 @@
 - Telegram instantly publishes it
 - Return success: true to the frontend
 
+## add database
+
 6. Frontend Setup (React)
 
 - Create a single-page form with a textarea (Min: 15, Max: 2000 characters)
