@@ -4,13 +4,8 @@ const sendToTelegram = async (text) => {
   const token = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_CHANNEL_ID;
 
-  if (!token || !chatId) {
-    throw new Error(
-      "Missing TELEGRAM_BOT_TOKEN or TELEGRAM_CHANNEL_ID in .env",
-    );
-  }
-
-  const url = `https://api.telegram.org/bot${token}/sendMessage`;
+  const PROXY_URL = "https://telegram-proxy.abdulqoyumayomide22.workers.dev";
+  const url = `${PROXY_URL}/bot${token}/sendMessage`;
 
   try {
     await axios.post(url, {
